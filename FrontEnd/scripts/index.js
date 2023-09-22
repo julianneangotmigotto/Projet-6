@@ -1,98 +1,73 @@
 console.log('test')
 
 const gallery = document.querySelector('.gallery')
+const filter = document.getElementById('filter')
 
-fetch('http://localhost:5678/api/works')
-  .then(data => data.json())
-  .then(data => {
-    console.log(data)
+const getWorks = categoryId => {
+  return fetch('http://localhost:5678/api/works')
+    .then(data => data.json())
+    .then(data => {
+      console.log(data)
+      // vider le container gallery
+      gallery.innerHTML = ''
 
-    /** we have creating this, append to div gallery
-        <figure>
-            <img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
-            <figcaption>Abajour Tahina</figcaption>
-        </figure>
-        */
+      const filterData = categoryId ? data.filter(project => project.category.id === categoryId) : data
 
-    // for each data
-    data.forEach(item => {
-      const figure = document.createElement('figure')
+      // for each data
+      filterData.forEach(item => {
+        const figure = document.createElement('figure')
 
-      const img = document.createElement('img')
-      img.src = item.imageUrl
-      img.setAttribute('alt', item.title)
-      figure.appendChild(img)
+        const img = document.createElement('img')
+        img.src = item.imageUrl
+        img.setAttribute('alt', item.title)
+        figure.appendChild(img)
 
-      const figCaption = document.createElement('figcaption')
-      figCaption.innerHTML = item.title
-      figure.appendChild(figCaption)
+        const figCaption = document.createElement('figcaption')
+        figCaption.innerHTML = item.title
+        figure.appendChild(figCaption)
 
-      gallery.appendChild(figure)
+        gallery.appendChild(figure)
+      })
     })
-  })
-  .catch(error => console.error(error))
+    .catch(error => console.error(error))
+}
 
 fetch('http://localhost:5678/api/categories')
   .then(data => data.json())
   .then(data => {
     console.log(data)
 
-document.addEventListener('DOMContentLoaded', function() {
-    var button = document.createElement('input');
-    button.type = 'button';
-    button.id = '1';
-    button.value = 'Tous';
-    button.className = 'btn';
- 
-    button.onclick = function() {
-    // …
-    };
- 
-    var filter = document.getElementById('filter');
-    filter.appendChild(button);
-}, false);
+    /** on va créer les élèments suivants dynamiquement:
+     * <div id="filter">
+     *  <button>Tous</bouton>
+     *  <button>Object</button>
+     *  ....
+     * </div>
+     */
 
-document.addEventListener('DOMContentLoaded', function() {
-    var button = document.createElement('input');
-    button.type = 'button';
-    button.id = '2';
-    button.value = 'Objets';
-    button.className = 'btn';
- 
-    button.onclick = function() {
-    // …
-    };
- 
-    var filter = document.getElementById('filter');
-    filter.appendChild(button);
-}, false);
+    const button = document.createElement('button')
+    button.innerHTML = 'Tous'
+    button.setAttribute('class', 'category-active')
+    filter.appendChild(button)
+    button.addEventListener('click', async () => {
+      await getWorks()
+    })
 
-document.addEventListener('DOMContentLoaded', function() {
-    var button = document.createElement('input');
-    button.type = 'button';
-    button.id = '3';
-    button.value = 'Appartements';
-    button.className = 'btn';
- 
-    button.onclick = function() {
-    // …
-    };
- 
-    var filter = document.getElementById('filter');
-    filter.appendChild(button);
-}, false);
+    // For each category
+    data.forEach(item => {
+      const button = document.createElement('button')
+      button.innerHTML = item.name
+      filter.appendChild(button)
 
-document.addEventListener('DOMContentLoaded', function() {
-    var button = document.createElement('input');
-    button.type = 'button';
-    button.id = '4';
-    button.value = 'Hôtel & restaurants';
-    button.className = 'btn';
- 
-    button.onclick = function() {
-    // …
-    };
- 
-    var filter = document.getElementById('filter');
-    filter.appendChild(button);
-}, false);
+      button.addEventListener('click', async () => {
+        button.setAttribute('class', 'category-active')
+        await getWorks(item.id)
+      })
+    })
+  })
+
+const init = async () => {
+  await getWorks()
+}
+
+init()
