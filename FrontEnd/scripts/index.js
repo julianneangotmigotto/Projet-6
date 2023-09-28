@@ -7,7 +7,6 @@ const getWorks = categoryId => {
   return fetch('http://localhost:5678/api/works')
     .then(data => data.json())
     .then(data => {
-      console.log(data)
       // vider le container gallery
       gallery.innerHTML = ''
 
@@ -35,8 +34,6 @@ const getWorks = categoryId => {
 fetch('http://localhost:5678/api/categories')
   .then(data => data.json())
   .then(data => {
-    console.log(data)
-
     /** on va créer les élèments suivants dynamiquement:
      * <div id="filter">
      *  <button>Tous</bouton>
@@ -50,7 +47,10 @@ fetch('http://localhost:5678/api/categories')
     button.setAttribute('class', 'category-active')
     filter.appendChild(button)
     button.addEventListener('click', async () => {
+      const buttons = document.querySelectorAll('#filter button')
+      buttons.forEach(element => element.setAttribute('class', ''))
       await getWorks()
+      button.setAttribute('class', 'category-active')
     })
 
     // For each category
@@ -60,6 +60,8 @@ fetch('http://localhost:5678/api/categories')
       filter.appendChild(button)
 
       button.addEventListener('click', async () => {
+        const buttons = document.querySelectorAll('#filter button')
+        buttons.forEach(element => element.setAttribute('class', ''))
         button.setAttribute('class', 'category-active')
         await getWorks(item.id)
       })
