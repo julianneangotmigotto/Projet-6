@@ -399,3 +399,46 @@ footer nav ul {
 #file-error {
 	display: none;
 }
+
+/* Edit Mode */
+
+.banner {
+	width: 100%;
+	background-color: black;
+	height: 59px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+}
+
+.button {
+	background-color: transparent;
+	border: none;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+button span {
+	padding-left: 10px;
+}
+
+#portfolio h2 {
+	display: flex;
+	justify-content: center;
+}
+
+#portfolio button {
+	margin-left: 20px;
+	display: none;
+}
+
+#portfolio span {
+	color: black;
+}

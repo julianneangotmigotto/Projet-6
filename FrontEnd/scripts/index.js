@@ -2,6 +2,21 @@ console.log('test')
 
 const gallery = document.querySelector('.gallery')
 const filter = document.getElementById('filter')
+const loginA = document.getElementById('login')
+const banner = document.querySelector('.banner')
+const header = document.querySelector('header')
+const editModal = document.getElementById('edit-modal')
+
+if (localStorage.token) {
+  loginA.innerHTML = 'logout'
+  banner.style.display = 'flex'
+  header.style.marginTop = '79px'
+  filter.style.display = 'none'
+  editModal.style.display = 'flex'
+  gallery.style.marginTop = '60px'
+}
+
+loginA.addEventListener('click', () => localStorage.clear())
 
 const getWorks = categoryId => {
   return fetch('http://localhost:5678/api/works')
