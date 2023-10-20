@@ -1,21 +1,4 @@
 const loginError = document.getElementById('login-error')
-
-const login = ({ email, password }) => {
-  const data = JSON.stringify({ email, password })
-
-  return fetch('http://localhost:5678/api/users/login', {
-    method: 'post',
-    body: data,
-    headers: { 'Content-Type': 'application/json' }
-  })
-    .then(res => {
-      if (res.status > 299 || res.status < 200) {
-        throw new Error()
-      }
-      return res.json()
-    })
-}
-
 const form = document.getElementById('login')
 const email = document.getElementById('email')
 const password = document.getElementById('password')

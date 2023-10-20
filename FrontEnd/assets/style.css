@@ -437,9 +437,12 @@ button span {
 
 #portfolio button {
 	margin-left: 20px;
-	display: none;
 }
 
 #portfolio span {
 	color: black;
+}
+
+#edit-modal {
+	display: none;
 }
