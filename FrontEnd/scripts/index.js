@@ -3,15 +3,17 @@ const filter = document.getElementById('filter')
 const loginA = document.getElementById('login')
 const banner = document.querySelector('.banner')
 const header = document.querySelector('header')
-const editModal = document.getElementById('edit-modal')
+
 
 /**
  * Method to create dom gallery
  * @param {Array} data - Array of object from API /works
+ * @param {HTMLElement} container - append all element to this container, by default is Gallery
+ * @param {Boolean} isModal 
  */
-const createGallery = data => {
+const createGallery = (data, container = gallery, isModal = false) => {
   // vider le container gallery
-  gallery.innerHTML = ''
+  container.innerHTML = ''
 
   // for each data
   data.forEach(item => {
@@ -22,22 +24,38 @@ const createGallery = data => {
     img.setAttribute('alt', item.title)
     figure.appendChild(img)
 
-    const figCaption = document.createElement('figcaption')
-    figCaption.innerHTML = item.title
-    figure.appendChild(figCaption)
+    if (!isModal) {
+      const figCaption = document.createElement('figcaption')
+      figCaption.innerHTML = item.title
+      figure.appendChild(figCaption)
+    }
 
-    gallery.appendChild(figure)
+    if (isModal) {
+      const garbageIcon = document.createElement('img')
+      garbageIcon.alt = 'garbage icon'
+      garbageIcon.src = '../assets/icons/garbage.png'
+      garbageIcon.setAttribute('class', 'icon garbage-icon')
+      figure.appendChild(garbageIcon)
+
+      garbageIcon.addEventListener('click', () => {
+        deleteWork(item.id)
+          .then(() => getWorks())
+          .then(data => createGallery(data, modalGallery, true))
+      })
+    }
+
+    container.appendChild(figure)
   })
 }
 
-/** 
+/**
  * on va créer les élèments suivants dynamiquement:
  * <div id="filter">
  *  <button>Tous</bouton>
  *  <button>Object</button>
  *  ....
  * </div>
- * 
+ *
  * @param {Array} data - Array of object from API /categories
  */
 const createCategories = data => {

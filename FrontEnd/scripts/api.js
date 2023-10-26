@@ -15,6 +15,13 @@ const post = (url, data) => fetch(url, {
   return res.json()
 })
 
+const deleteWork = id => fetch(`${URL_WORKS}/${id}`, {
+  method: 'delete',
+  headers: {
+    'Authorization': 'Bearer ' + localStorage.token,
+  }
+}).then(() => console.log('le travail est supprimé'))
+
 const getWorks = categoryId => get(URL_WORKS).then(data => {
   const filterData = categoryId ? data.filter(project => project.category.id === categoryId) : data
   return filterData

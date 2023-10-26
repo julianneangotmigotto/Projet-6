@@ -8,5 +8,9 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "no-undef": "off",
+        "no-trailing-spaces": "off",
+        "no-unused-vars": "off",
+        "indent": "off"
     }
 }
