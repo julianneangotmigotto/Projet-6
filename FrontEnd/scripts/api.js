@@ -18,7 +18,7 @@ const post = (url, data) => fetch(url, {
 const deleteWork = id => fetch(`${URL_WORKS}/${id}`, {
   method: 'delete',
   headers: {
-    'Authorization': 'Bearer ' + localStorage.token,
+    Authorization: 'Bearer ' + localStorage.token
   }
 }).then(() => console.log('le travail est supprimé'))
 
@@ -30,3 +30,11 @@ const getWorks = categoryId => get(URL_WORKS).then(data => {
 const getCategories = () => get(URL_CATEGORIES)
 
 const login = ({ email, password }) => post(URL_LOGIN, { email, password }).then(data => data)
+
+const postWorks = data => fetch(URL_WORKS, {
+  method: 'post',
+  headers: {
+    Authorization: 'Bearer ' + localStorage.token
+  },
+  body: data
+}).then(res => res.json())
