@@ -273,7 +273,8 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
+	object-fit: cover;
+	height: 100%;
 }
 
 #contact {
@@ -402,6 +403,10 @@ footer nav ul {
 }
 
 /* Edit Mode */
+
+#edit-modal {
+	display: none;
+}
 
 .banner {
 	width: 100%;
